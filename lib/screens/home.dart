@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_store/models/freshbasket.dart';
+import 'package:grocery_store/screens/item.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -65,7 +66,7 @@ class _HomeScrennState extends State<HomeScreen> {
       children: [
         GestureDetector(
           onTap:(){
-           // Navigator.push(context, MaterialPageRoute(builder: (context)=>))
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> ItemScreen(itemlist: freshBasketList)));
           },
           child: customcard(freshBasketList[0].martimages.toString(), freshBasketList[0].martname.toString()),
         ),
