@@ -16,10 +16,8 @@ class _ItemScreenState extends State<ItemScreen> {
  
  
 int cartcount=0;
-int rowcount=0;
 String Selectedvalue='All';
 
- 
   @override
   Widget build(BuildContext context) {
     
@@ -27,7 +25,7 @@ String Selectedvalue='All';
    List<String> dropdownitem=widget.dropdownitem;
 
    List<dynamic> filteredProducts = Selectedvalue == "All" ? itemlist.toList():  itemlist
-            .where((p) => p["itemcategory"] == Selectedvalue).toList();
+            .where((p) => p.itemcategory == Selectedvalue).toList();
     return Scaffold(
       appBar: AppBar(
         actions:[
@@ -82,68 +80,71 @@ String Selectedvalue='All';
               ),
             ),
           ),
-          Row(
+          GridView.count(
+  crossAxisCount: 2, 
+   crossAxisSpacing: 8,
+   mainAxisSpacing: 5,
+  shrinkWrap: true,
+ 
+  physics: NeverScrollableScrollPhysics(), // ✅ prevent nested scroll issue
   children: [
-    Expanded(
-      child: SizedBox(
-        height: 250,
-        child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-          itemCount: filteredProducts.length,
-          itemBuilder: (ctx, index) {
-            final item = filteredProducts[index]; 
-          return Row(
+    for (var item in filteredProducts)
+      Card(
+        elevation: 8,
+        child: Container(
+          width: 180,
+        
+          padding: const EdgeInsets.all(8),
+          child: Column(
+          
             children: [
-              Card(
-                  elevation: 8,
-                  margin: EdgeInsets.all(8),
-                  child: Container(
-                    width: 180,
-                    padding: EdgeInsets.all(8),
-                    child: Column(
-                      
-                      children: [
-                  
-                        Image.asset(item.itemimage, width: 120, height: 100, fit: BoxFit.cover),
-                        SizedBox(height: 8),
-                        Text(item.itemname, style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text(item.itemcategory),
-                        Text('Rs ${item.itemprice}', style: TextStyle(color: Colors.green)),
-              SizedBox(height: 5,)
-,                 Container(
-                  width: 63,
-                  height: 25,
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(8)
-                   
-                  ),
-                  child: Row(
-                    spacing: 5,
-                    children: [
-                      Icon(Icons.shopping_cart_checkout_outlined,color: Colors.white,),
-                      Text('Add',style: TextStyle(color: Colors.white),)
-                    ],
-                  ),
-                 )
-
-                          
-                        
-                       
-                        
-                      ],
-                    ),
-                  ),
+              Image.asset(
+                item.itemimage,
+                width: 120,
+                height: 80,
+                fit: BoxFit.cover,
+              ),
+              const SizedBox(height: 3),
+              Text(
+                item.itemname,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(item.itemcategory),
+              Text(
+                'Rs ${item.itemprice}',
+                style: const TextStyle(color: Colors.green),
+              ),
+              const SizedBox(height: 2),
+              Container(
+                width: 70,
+                height: 28,
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                SizedBox(width: 5,)
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.shopping_cart_checkout_outlined,
+                      color: Colors.white,
+                      size: 16,
+                    ),
+                    SizedBox(width: 4),
+                    Text(
+                      'Add',
+                      style: TextStyle(color: Colors.white, fontSize: 13),
+                    ),
+                  ],
+                ),
+              ),
             ],
-          );
-          },
+          ),
         ),
       ),
-    ),
   ],
 ),
+
 SizedBox(height: 20,)
 
         ],
