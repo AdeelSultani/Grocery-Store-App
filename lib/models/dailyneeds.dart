@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 class DailyNeeds {
 
-Image martimages;
-  String martname;
+String ?martimages;
+  String ?martname;
   String itemname;
   int itemprice;
   String itemcategory;
-  Image itemimage;
+  String itemimage;
 
   DailyNeeds({
-    required this.martimages,
-    required this.martname,
+     this.martimages,
+     this.martname,
     required this.itemname,
     required this.itemcategory,
     required this.itemprice,
