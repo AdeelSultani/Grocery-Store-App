@@ -181,8 +181,6 @@ MetroGrocery(
     itemimage: 'assets/images/cheese.jpg',
   ),
    MetroGrocery(
-    martimages: 'assets/images/greenmart.jpg',
-    martname: 'Green Mart',
     itemname: 'Wireless Headphone',
     itemcategory: 'Electronics',
     itemprice: 2000,

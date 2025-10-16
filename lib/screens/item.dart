@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_store/screens/cartscreen.dart';
 
 
 class ItemScreen extends StatefulWidget {
@@ -14,9 +15,11 @@ class ItemScreen extends StatefulWidget {
 class _ItemScreenState extends State<ItemScreen> {
 
  
- 
+int totalbill=0; 
 int cartcount=0;
+int addcartbuttonpressed=0;
 String Selectedvalue='All';
+List<Map<String,dynamic>> cartlist=[];
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,7 @@ String Selectedvalue='All';
            IconButton(
                   icon: Icon(Icons.shopping_cart),
                   onPressed: () {
-                    // Navigate to cart screen or show dialog
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>CartScreen(cartlist: cartlist, totalbill: totalbill)));
                   },
            
                  ),
@@ -86,17 +89,15 @@ String Selectedvalue='All';
    mainAxisSpacing: 5,
   shrinkWrap: true,
  
-  physics: NeverScrollableScrollPhysics(), // ✅ prevent nested scroll issue
+  physics: NeverScrollableScrollPhysics(), 
   children: [
     for (var item in filteredProducts)
       Card(
         elevation: 8,
         child: Container(
-          width: 180,
-        
+          width: 150,
           padding: const EdgeInsets.all(8),
           child: Column(
-          
             children: [
               Image.asset(
                 item.itemimage,
@@ -115,27 +116,54 @@ String Selectedvalue='All';
                 style: const TextStyle(color: Colors.green),
               ),
               const SizedBox(height: 2),
-              Container(
-                width: 70,
-                height: 28,
-                decoration: BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.shopping_cart_checkout_outlined,
-                      color: Colors.white,
-                      size: 16,
-                    ),
-                    SizedBox(width: 4),
-                    Text(
-                      'Add',
-                      style: TextStyle(color: Colors.white, fontSize: 13),
-                    ),
-                  ],
+              GestureDetector(
+                onTap: (){
+                  bool flag=false;
+                  totalbill=item.itemprice+totalbill;
+                  addcartbuttonpressed++;
+                  for(int i=0;i<cartlist.length;i++){
+                    if(cartlist[i]['itemname']==item.itemname){
+                   cartlist[i]['addcartbuttonpressed'] = addcartbuttonpressed;
+                     flag=true;
+                     break;
+                    }
+                  }
+                  if(flag==false){
+                cartlist.add(
+                  {
+                    'itemname':item.itemname,
+                    'itemprice':item.itemprice,
+                    'addcartbuttonpressed':addcartbuttonpressed
+                  }
+                  
+                );
+                  }
+                  setState(() {
+                    
+                  });
+                },
+                child: Container(
+                  width: 70,
+                  height: 28,
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.shopping_cart_checkout_outlined,
+                        color: Colors.white,
+                        size: 16,
+                      ),
+                      SizedBox(width: 4),
+                      Text(
+                        'Add',
+                        style: TextStyle(color: Colors.white, fontSize: 13),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -149,8 +177,23 @@ SizedBox(height: 20,)
 
         ],
        ),
-     )
-      
+     ),
+     floatingActionButton: Container(
+     height: 50,
+     width: 370,
+     decoration: BoxDecoration(
+       color: Colors.green,
+       borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
+     ),
+     child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('Total: RS $totalbill',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),)
+
+      ],
+     ),
+     
+     ), 
     );
   }
 
