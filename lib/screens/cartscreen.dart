@@ -35,10 +35,28 @@ class _CartScreenState extends State<CartScreen> {
               child: Row(
                 spacing: 4,
                 children: [
-                  IconButton(onPressed: (){}, icon: Icon(Icons.remove,color: Colors.red,)),
+                  IconButton(onPressed: (){
+                    if(cartlist[index]['addcartbuttonpressed']==0){
+                      cartlist.removeAt(index);
+                    }else{
+                      cartlist[index]['addcartbuttonpressed']--;
+                      //totalamount=totalamount-cartlist[index]['itemprice'];
+
+                    }
+                    setState(() {
+                      
+                    });
+                  }, icon: Icon(Icons.remove,color: Colors.red,)),
                   Text(cartlist[index]['addcartbuttonpressed'].toString()),
               
-                  IconButton(onPressed: (){}, icon: Icon(Icons.add,color: Colors.green,))
+                  IconButton(onPressed: (){
+                    cartlist[index]['addcartbuttonpressed']++;
+                    totalamount=cartlist[index]['itemprice']+totalamount;
+                    totalbill=totalamount+totalbill;
+                    setState(() {
+                      
+                    });
+                  }, icon: Icon(Icons.add,color: Colors.green,))
                  
                 ],
               ),

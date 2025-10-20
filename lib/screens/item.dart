@@ -17,7 +17,7 @@ class _ItemScreenState extends State<ItemScreen> {
  
 int totalbill=0; 
 int cartcount=0;
-int addcartbuttonpressed=0;
+int addcartbuttonpressed=1;
 String Selectedvalue='All';
 List<Map<String,dynamic>> cartlist=[];
 
@@ -120,23 +120,24 @@ List<Map<String,dynamic>> cartlist=[];
                 onTap: (){
                   bool flag=false;
                   totalbill=item.itemprice+totalbill;
-                  addcartbuttonpressed++;
+                  
                   for(int i=0;i<cartlist.length;i++){
                     if(cartlist[i]['itemname']==item.itemname){
-                   cartlist[i]['addcartbuttonpressed'] = addcartbuttonpressed;
+                    
+                     // addcartbuttonpressed++;
+                   cartlist[i]['addcartbuttonpressed']++;
                      flag=true;
                      break;
                     }
                   }
                   if(flag==false){
+                    
                 cartlist.add(
                   {
                     'itemname':item.itemname,
                     'itemprice':item.itemprice,
                     'addcartbuttonpressed':addcartbuttonpressed
-                  }
-                  
-                );
+                  } );
                   }
                   setState(() {
                     
