@@ -3,17 +3,27 @@ import 'package:flutter/material.dart';
 class CartScreen extends StatefulWidget {
 List<Map<String ,dynamic>> cartlist=[];
 int totalbill;
- CartScreen({required this.cartlist,required this.totalbill});
+int cartcount;
+ CartScreen({required this.cartlist,required this.totalbill,required this.cartcount});
 
   @override
   State<CartScreen> createState() => _CartScreenState();
 }
 
 class _CartScreenState extends State<CartScreen> {
+
+  late int totalbill;
+  @override
+  void initState() {
+    totalbill=widget.totalbill;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Map<String ,dynamic>> cartlist=widget.cartlist;
-    int totalbill=widget.totalbill;
+    int cartcount=widget.cartcount;
+   
     return Scaffold(
 
       appBar: AppBar(
@@ -22,7 +32,8 @@ class _CartScreenState extends State<CartScreen> {
     
       ),
       body: Padding(padding: EdgeInsets.all(8),
-      child: ListView.builder(
+      child:cartlist.length!=0?
+       ListView.builder(
       
         itemCount: cartlist.length,
         itemBuilder: (context,index){
@@ -36,11 +47,16 @@ class _CartScreenState extends State<CartScreen> {
                 spacing: 4,
                 children: [
                   IconButton(onPressed: (){
-                    if(cartlist[index]['addcartbuttonpressed']==0){
+                    if(cartlist[index]['addcartbuttonpressed']<=1){
+                    int price=cartlist[index]['itemprice'];
+                    totalbill=totalbill-price;
                       cartlist.removeAt(index);
+                      cartcount--;
                     }else{
                       cartlist[index]['addcartbuttonpressed']--;
-                      //totalamount=totalamount-cartlist[index]['itemprice'];
+                      int c=cartlist[index]['itemprice'];
+                      totalamount=totalamount-c;
+                      totalbill=totalbill-c;
 
                     }
                     setState(() {
@@ -51,8 +67,11 @@ class _CartScreenState extends State<CartScreen> {
               
                   IconButton(onPressed: (){
                     cartlist[index]['addcartbuttonpressed']++;
-                    totalamount=cartlist[index]['itemprice']+totalamount;
-                    totalbill=totalamount+totalbill;
+                    int c=cartlist[index]['itemprice'];
+        
+                    totalamount=c+totalamount;
+                    totalbill=totalbill+c;
+                    print("ssfsf${totalbill}");
                     setState(() {
                       
                     });
@@ -63,7 +82,7 @@ class _CartScreenState extends State<CartScreen> {
             ),
           );
 
-      }),
+      }):Center(child: Text('Your Cart is Empty',style: TextStyle(fontWeight: FontWeight.bold),),),
       ),
       floatingActionButton: Container(
      height: 50,

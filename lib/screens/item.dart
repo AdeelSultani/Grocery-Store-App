@@ -33,14 +33,53 @@ List<Map<String,dynamic>> cartlist=[];
       appBar: AppBar(
         actions:[
         
-           IconButton(
-                  icon: Icon(Icons.shopping_cart),
-                  onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>CartScreen(cartlist: cartlist, totalbill: totalbill)));
-                  },
-           
-                 ),
-                 Text('$cartcount',style: TextStyle(fontSize: 12),)
+           Stack(
+  children: [
+    IconButton(
+      icon: Icon(Icons.shopping_cart, size: 28, color: Colors.black),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                CartScreen(cartlist: cartlist, totalbill: totalbill,cartcount: cartcount,),
+          ),
+        );
+        setState(() {
+          
+        });
+      },
+    ),
+    if (cartcount > 0)
+      Positioned(
+        right: 4,
+        top: 4,
+        child: Container(
+          padding: EdgeInsets.all(4),
+          decoration: BoxDecoration(
+            color: Colors.red,
+            shape: BoxShape.circle,
+          ),
+          constraints: BoxConstraints(
+            minWidth: 18,
+            minHeight: 18,
+          ),
+          child: Center(
+            child: Text(
+              '$cartcount',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      ),
+  ],
+),
+
                 
            ],
         title: Text('${itemlist[0].martname}',style: TextStyle(fontSize: 20),),
@@ -118,13 +157,12 @@ List<Map<String,dynamic>> cartlist=[];
               const SizedBox(height: 2),
               GestureDetector(
                 onTap: (){
+                  cartcount++;
                   bool flag=false;
                   totalbill=item.itemprice+totalbill;
                   
                   for(int i=0;i<cartlist.length;i++){
                     if(cartlist[i]['itemname']==item.itemname){
-                    
-                     // addcartbuttonpressed++;
                    cartlist[i]['addcartbuttonpressed']++;
                      flag=true;
                      break;
