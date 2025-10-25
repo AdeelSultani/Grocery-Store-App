@@ -13,16 +13,18 @@ int cartcount;
 class _CartScreenState extends State<CartScreen> {
 
   late int totalbill;
+  late int cartcount;
   @override
   void initState() {
     totalbill=widget.totalbill;
+    cartcount=widget.cartcount;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     List<Map<String ,dynamic>> cartlist=widget.cartlist;
-    int cartcount=widget.cartcount;
+  
    
     return Scaffold(
 
